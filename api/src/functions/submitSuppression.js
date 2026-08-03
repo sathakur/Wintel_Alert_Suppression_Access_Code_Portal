@@ -1,4 +1,4 @@
-const { app } = require("@azure/functions");
+﻿const { app } = require("@azure/functions");
 
 const MAX_HOSTNAMES = 20;
 const FIXED_TIME_ZONE = "India Standard Time";
@@ -238,3 +238,4 @@ app.http("submitSuppression", {
     return jsonResponse(logicAppResponse.status, responseBody);
   }
 });
+
