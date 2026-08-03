@@ -19,8 +19,6 @@
         <div class="grid">
           <label>Requester name*<input id="requesterName" maxlength="100" required></label>
           <label>Requester email / username*<input id="requesterEmail" maxlength="150" required></label>
-          <label>Employee ID*<input id="employeeId" maxlength="50" required></label>
-          <label>Portal access code*<input id="portalAccessCode" type="password" maxlength="200" required></label>
         </div>
       </section>
 
@@ -31,19 +29,8 @@
         <div id="hostnameCount" class="counter">0 / 20</div>
 
         <div class="grid">
-          <label>Start date/time*<input id="startDateTime" type="datetime-local" required></label>
-          <label>End date/time*<input id="endDateTime" type="datetime-local" required></label>
-          <label>Time zone*
-            <select id="timeZone" required>
-              <option value="">Select</option>
-              <option>India Standard Time</option>
-              <option>W. Europe Standard Time</option>
-              <option>GMT Standard Time</option>
-              <option>UTC</option>
-              <option>Eastern Standard Time</option>
-              <option>Central Standard Time</option>
-            </select>
-          </label>
+          <label>Start date/time (IST)*<input id="startDateTime" type="datetime-local" required></label>
+          <label>End date/time (IST)*<input id="endDateTime" type="datetime-local" required></label>
           <label>Environment
             <select id="environment">
               <option value="">Not provided</option>
