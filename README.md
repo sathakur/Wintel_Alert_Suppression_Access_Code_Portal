@@ -2,7 +2,7 @@
 
 This version includes:
 
-- Requester email restricted to the exact domains `@abc.com` and `@xyz`
+- Requester email restricted to the exact domains `@capgemini.com` and `@fresenius.com`
 - Email validation in the browser, managed API, and Logic App
 - Key submission checks highlighted on the website
 - 1–20 unique VM hostnames
@@ -23,8 +23,8 @@ LOGIC_APP_CALLBACK_URL
 The current examples are:
 
 ```text
-abc.com
-xyz
+capgemini.com
+fresenius.com
 ```
 
 Update the same values in all three locations:
@@ -33,8 +33,8 @@ Update the same values in all three locations:
 2. `api/src/functions/submitSuppression.js` — `ALLOWED_EMAIL_DOMAINS`
 3. Logic App parameter — `allowedEmailDomains`
 
-The checks use exact domain matching. For example, allowing `abc.com` does not allow
-`evilabc.com` or `subdomain.abc.com`.
+The checks use exact domain matching. For example, allowing `capgemini.com` does not allow
+`evilcapgemini.com` or `subdomain.capgemini.com`.
 
 ## Security note
 

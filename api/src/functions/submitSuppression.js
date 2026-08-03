@@ -1,9 +1,9 @@
-﻿const { app } = require("@azure/functions");
+const { app } = require("@azure/functions");
 
 const MAX_HOSTNAMES = 20;
 const FIXED_TIME_ZONE = "India Standard Time";
 const ALLOWED_HOSTNAME = /^[A-Za-z0-9._-]{1,253}$/;
-const ALLOWED_EMAIL_DOMAINS = new Set(["abc.com", "xyz"]);
+const ALLOWED_EMAIL_DOMAINS = new Set(["capgemini.com", "fresenius.com"]);
 const MINIMUM_LEAD_MINUTES = 45;
 const MAXIMUM_DURATION_HOURS = 24;
 
@@ -93,7 +93,7 @@ function validatePayload(body) {
 
   const requesterEmailDomain = getEmailDomain(body.requesterEmail);
   if (!ALLOWED_EMAIL_DOMAINS.has(requesterEmailDomain)) {
-    return "Requester email must end with @abc.com or @xyz.";
+    return "Requester email must end with @capgemini.com or @fresenius.com.";
   }
 
   if (!Array.isArray(body.hostnames)) {
@@ -238,4 +238,3 @@ app.http("submitSuppression", {
     return jsonResponse(logicAppResponse.status, responseBody);
   }
 });
-

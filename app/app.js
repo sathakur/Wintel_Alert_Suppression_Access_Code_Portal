@@ -1,6 +1,6 @@
 const MAX_HOSTNAMES = 20;
 const FIXED_TIME_ZONE = "India Standard Time";
-const ALLOWED_EMAIL_DOMAINS = ["abc.com", "xyz"];
+const ALLOWED_EMAIL_DOMAINS = ["capgemini.com", "fresenius.com"];
 const MINIMUM_LEAD_MINUTES = 45;
 const MAXIMUM_DURATION_HOURS = 24;
 
@@ -91,7 +91,7 @@ function validateForm(payload) {
   if (!payload.requesterName) return "Enter the requester name.";
   if (!payload.requesterEmail) return "Enter the requester email.";
   if (!isAllowedRequesterEmail(payload.requesterEmail)) {
-    return "Requester email must end with @abc.com or @xyz.";
+    return "Requester email must end with @capgemini.com or @fresenius.com.";
   }
 
   if (payload.hostnames.length < 1) return "Enter at least one hostname.";
