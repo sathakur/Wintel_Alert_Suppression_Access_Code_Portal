@@ -2,57 +2,117 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Wintel Alert Suppression</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Alert Suppression</title>
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <header>
-    <h1>Wintel Alert Suppression</h1>
-    <p>Submit up to 20 VM hostnames for one maintenance window.</p>
+  <header class="topbar">
+    <div>
+      <h1>Alert Suppression</h1>
+      <p>Submit up to 20 VM hostnames for a maintenance window.</p>
+    </div>
   </header>
 
-  <main>
-    <form id="suppressionForm">
-      <section>
+  <main class="page">
+    <section class="card">
+      <div class="notice">
+        Submit at least 45 minutes before maintenance. Alerts remain visible,
+        but action-group notifications are suppressed during the selected window.
+      </div>
+
+      <form id="suppressionForm" novalidate>
         <h2>Requester details</h2>
+
         <div class="grid">
-          <label>Requester name*<input id="requesterName" maxlength="100" required></label>
-          <label>Requester email / username*<input id="requesterEmail" maxlength="150" required></label>
+          <div class="field">
+            <label for="requesterName">Requester name *</label>
+            <input id="requesterName" type="text" maxlength="100" required>
+          </div>
+
+          <div class="field">
+            <label for="requesterEmail">Requester email / username *</label>
+            <input id="requesterEmail" type="text" maxlength="150" required>
+          </div>
         </div>
-      </section>
 
-      <section>
         <h2>Suppression request</h2>
-        <label>VM hostnames*<textarea id="hostnames" rows="8" placeholder="WINVM001&#10;WINVM002" required></textarea></label>
-        <div class="hint">One hostname per line, or separate with commas/semicolons. Maximum 20 unique hostnames.</div>
-        <div id="hostnameCount" class="counter">0 / 20</div>
+
+        <div class="field full">
+          <label for="hostnames">VM hostnames *</label>
+          <textarea
+            id="hostnames"
+            rows="8"
+            maxlength="5000"
+            placeholder="WINVM001&#10;WINVM002&#10;WINVM003"
+            required></textarea>
+          <div class="field-help">
+            Enter one hostname per line, or separate values with commas or semicolons.
+            Maximum 20 unique hostnames.
+          </div>
+          <div id="hostnameCount" class="counter">0 / 20</div>
+        </div>
 
         <div class="grid">
-          <label>Start date/time (IST)*<input id="startDateTime" type="datetime-local" required></label>
-          <label>End date/time (IST)*<input id="endDateTime" type="datetime-local" required></label>
-          <label>Environment
+          <div class="field">
+            <label for="startDateTime">Start date and time *</label>
+            <input id="startDateTime" type="datetime-local" required>
+          </div>
+
+          <div class="field">
+            <label for="endDateTime">End date and time *</label>
+            <input id="endDateTime" type="datetime-local" required>
+          </div>
+
+          <div class="field">
+            <label for="timeZone">Time zone *</label>
+            <select id="timeZone" required>
+              <option value="India Standard Time" selected>
+                India Standard Time (IST)
+              </option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="environment">Environment</label>
             <select id="environment">
               <option value="">Not provided</option>
-              <option>Production</option>
-              <option>Development</option>
-              <option>Test</option>
-              <option>UAT</option>
-              <option>DR</option>
+              <option value="Production">Production</option>
+              <option value="Development">Development</option>
+              <option value="Test">Test</option>
+              <option value="UAT">UAT</option>
+              <option value="DR">DR</option>
             </select>
-          </label>
-          <label>Change / incident number*<input id="changeNumber" maxlength="80" required></label>
-          <label>Reason*<textarea id="reason" rows="3" maxlength="500" required></textarea></label>
+          </div>
+
+          <div class="field">
+            <label for="changeNumber">Change / incident number *</label>
+            <input id="changeNumber" type="text" maxlength="80" placeholder="CHG0012345" required>
+          </div>
+
+          <div class="field full-grid">
+            <label for="reason">Reason *</label>
+            <textarea
+              id="reason"
+              rows="3"
+              maxlength="500"
+              placeholder="Monthly Windows patching"
+              required></textarea>
+          </div>
         </div>
-      </section>
 
-      <div id="validationMessage" class="error"></div>
-      <button id="submitButton" type="submit">Submit suppression request</button>
-      <button id="clearButton" type="button" class="secondary">Clear</button>
-    </form>
+        <div id="validationMessage" class="validation-message" role="alert"></div>
 
-    <section id="resultArea" hidden></section>
+        <div class="actions">
+          <button id="submitButton" type="submit">Submit suppression request</button>
+          <button id="clearButton" type="button" class="secondary">Clear</button>
+        </div>
+      </form>
+    </section>
+
+    <section id="resultArea" class="card result-card" hidden aria-live="polite"></section>
   </main>
+
   <script src="/app.js"></script>
 </body>
 </html>
