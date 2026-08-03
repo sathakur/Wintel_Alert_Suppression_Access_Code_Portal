@@ -1,0 +1,9 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "",
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "LOGIC_APP_CALLBACK_URL": "<PASTE_COMPLETE_LOGIC_APP_HTTP_POST_URL>",
+    "PORTAL_ACCESS_CODE": "<CREATE_A_STRONG_PRIVATE_ACCESS_CODE>"
+  }
+}

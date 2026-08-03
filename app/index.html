@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Wintel Alert Suppression</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <h1>Wintel Alert Suppression</h1>
+    <p>Submit up to 20 VM hostnames for one maintenance window.</p>
+  </header>
+
+  <main>
+    <form id="suppressionForm">
+      <section>
+        <h2>Requester details</h2>
+        <div class="grid">
+          <label>Requester name*<input id="requesterName" maxlength="100" required></label>
+          <label>Requester email / username*<input id="requesterEmail" maxlength="150" required></label>
+          <label>Employee ID*<input id="employeeId" maxlength="50" required></label>
+          <label>Portal access code*<input id="portalAccessCode" type="password" maxlength="200" required></label>
+        </div>
+      </section>
+
+      <section>
+        <h2>Suppression request</h2>
+        <label>VM hostnames*<textarea id="hostnames" rows="8" placeholder="WINVM001&#10;WINVM002" required></textarea></label>
+        <div class="hint">One hostname per line, or separate with commas/semicolons. Maximum 20 unique hostnames.</div>
+        <div id="hostnameCount" class="counter">0 / 20</div>
+
+        <div class="grid">
+          <label>Start date/time*<input id="startDateTime" type="datetime-local" required></label>
+          <label>End date/time*<input id="endDateTime" type="datetime-local" required></label>
+          <label>Time zone*
+            <select id="timeZone" required>
+              <option value="">Select</option>
+              <option>India Standard Time</option>
+              <option>W. Europe Standard Time</option>
+              <option>GMT Standard Time</option>
+              <option>UTC</option>
+              <option>Eastern Standard Time</option>
+              <option>Central Standard Time</option>
+            </select>
+          </label>
+          <label>Environment
+            <select id="environment">
+              <option value="">Not provided</option>
+              <option>Production</option>
+              <option>Development</option>
+              <option>Test</option>
+              <option>UAT</option>
+              <option>DR</option>
+            </select>
+          </label>
+          <label>Change / incident number*<input id="changeNumber" maxlength="80" required></label>
+          <label>Reason*<textarea id="reason" rows="3" maxlength="500" required></textarea></label>
+        </div>
+      </section>
+
+      <div id="validationMessage" class="error"></div>
+      <button id="submitButton" type="submit">Submit suppression request</button>
+      <button id="clearButton" type="button" class="secondary">Clear</button>
+    </form>
+
+    <section id="resultArea" hidden></section>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>
