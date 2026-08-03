@@ -1,14 +1,16 @@
 # Alert Suppression Portal
 
-Complete version with:
+This version includes:
 
-- Employee ID removed
-- Portal access code removed
-- Time-zone field retained
-- Only `India Standard Time (IST)` shown
-- Backend also enforces `India Standard Time`
-- Supports up to 20 VM hostnames
-- Requester name and requester email remain mandatory
+- Requester email restricted to the exact domains `@abc.com` and `@xyz`
+- Email validation in the browser, managed API, and Logic App
+- Key submission checks highlighted on the website
+- 1–20 unique VM hostnames
+- Minimum 45-minute lead time
+- Maximum 24-hour suppression window
+- India Standard Time only
+- Change/incident number and reason required
+- APR name format includes the change number
 
 ## Required Static Web App environment variable
 
@@ -16,10 +18,27 @@ Complete version with:
 LOGIC_APP_CALLBACK_URL
 ```
 
-## Deployment
+## Change the approved email domains
 
-Push the files to the `main` branch. The included GitHub Actions workflow deploys the frontend and API to Azure Static Web Apps.
+The current examples are:
+
+```text
+abc.com
+xyz
+```
+
+Update the same values in all three locations:
+
+1. `app/app.js` — `ALLOWED_EMAIL_DOMAINS`
+2. `api/src/functions/submitSuppression.js` — `ALLOWED_EMAIL_DOMAINS`
+3. Logic App parameter — `allowedEmailDomains`
+
+The checks use exact domain matching. For example, allowing `abc.com` does not allow
+`evilabc.com` or `subdomain.abc.com`.
 
 ## Security note
 
-The site and API are anonymous. Requester details are manually entered and are not independently verified.
+The portal remains anonymously accessible. Restricting the submitted email domain
+validates the text entered by the requester, but does not prove that the requester owns
+that email address. Verified requester identity still requires an approved authentication
+or internal access-control layer.

@@ -3,6 +3,9 @@ const { app } = require("@azure/functions");
 const MAX_HOSTNAMES = 20;
 const FIXED_TIME_ZONE = "India Standard Time";
 const ALLOWED_HOSTNAME = /^[A-Za-z0-9._-]{1,253}$/;
+const ALLOWED_EMAIL_DOMAINS = new Set(["abc.com", "xyz"]);
+const MINIMUM_LEAD_MINUTES = 45;
+const MAXIMUM_DURATION_HOURS = 24;
 
 function jsonResponse(status, body) {
   return {
@@ -24,6 +27,52 @@ function normalizeHostnames(values) {
   )];
 }
 
+function getEmailDomain(email) {
+  const normalized = String(email || "").trim().toLowerCase();
+  const parts = normalized.split("@");
+
+  if (parts.length !== 2 || !parts[0] || !parts[1]) {
+    return "";
+  }
+
+  return parts[1];
+}
+
+function parseIstDateTime(value) {
+  const match = String(value || "").match(
+    /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::(\d{2}))?$/
+  );
+
+  if (!match) return null;
+
+  const [, year, month, day, hour, minute, second = "0"] = match;
+  const utcMilliseconds =
+    Date.UTC(
+      Number(year),
+      Number(month) - 1,
+      Number(day),
+      Number(hour),
+      Number(minute),
+      Number(second)
+    ) -
+    330 * 60 * 1000;
+
+  const istView = new Date(utcMilliseconds + 330 * 60 * 1000);
+
+  if (
+    istView.getUTCFullYear() !== Number(year) ||
+    istView.getUTCMonth() !== Number(month) - 1 ||
+    istView.getUTCDate() !== Number(day) ||
+    istView.getUTCHours() !== Number(hour) ||
+    istView.getUTCMinutes() !== Number(minute) ||
+    istView.getUTCSeconds() !== Number(second)
+  ) {
+    return null;
+  }
+
+  return utcMilliseconds;
+}
+
 function validatePayload(body) {
   if (!body || typeof body !== "object") {
     return "Request body must be a JSON object.";
@@ -40,6 +89,11 @@ function validatePayload(body) {
     if (typeof body[field] !== "string" || !body[field].trim()) {
       return `${field} is required.`;
     }
+  }
+
+  const requesterEmailDomain = getEmailDomain(body.requesterEmail);
+  if (!ALLOWED_EMAIL_DOMAINS.has(requesterEmailDomain)) {
+    return "Requester email must end with @abc.com or @xyz.";
   }
 
   if (!Array.isArray(body.hostnames)) {
@@ -62,6 +116,31 @@ function validatePayload(body) {
 
   if (body.timeZone !== FIXED_TIME_ZONE) {
     return "Only India Standard Time is allowed.";
+  }
+
+  const startMilliseconds = parseIstDateTime(body.startDateTime);
+  const endMilliseconds = parseIstDateTime(body.endDateTime);
+
+  if (startMilliseconds === null || endMilliseconds === null) {
+    return "Start or end date/time is invalid.";
+  }
+
+  if (endMilliseconds <= startMilliseconds) {
+    return "End date/time must be later than start date/time.";
+  }
+
+  if (
+    startMilliseconds <
+    Date.now() + MINIMUM_LEAD_MINUTES * 60 * 1000
+  ) {
+    return `Start time must be at least ${MINIMUM_LEAD_MINUTES} minutes in the future.`;
+  }
+
+  if (
+    endMilliseconds - startMilliseconds >
+    MAXIMUM_DURATION_HOURS * 60 * 60 * 1000
+  ) {
+    return `The suppression window cannot exceed ${MAXIMUM_DURATION_HOURS} hours.`;
   }
 
   return "";

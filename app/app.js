@@ -1,5 +1,8 @@
 const MAX_HOSTNAMES = 20;
 const FIXED_TIME_ZONE = "India Standard Time";
+const ALLOWED_EMAIL_DOMAINS = ["abc.com", "xyz"];
+const MINIMUM_LEAD_MINUTES = 45;
+const MAXIMUM_DURATION_HOURS = 24;
 
 const form = document.getElementById("suppressionForm");
 const hostnamesInput = document.getElementById("hostnames");
@@ -16,6 +19,56 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+}
+
+function getEmailDomain(email) {
+  const normalized = String(email || "").trim().toLowerCase();
+  const parts = normalized.split("@");
+
+  if (parts.length !== 2 || !parts[0] || !parts[1]) {
+    return "";
+  }
+
+  return parts[1];
+}
+
+function isAllowedRequesterEmail(email) {
+  return ALLOWED_EMAIL_DOMAINS.includes(getEmailDomain(email));
+}
+
+function parseIstDateTime(value) {
+  const match = String(value || "").match(
+    /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::(\d{2}))?$/
+  );
+
+  if (!match) return null;
+
+  const [, year, month, day, hour, minute, second = "0"] = match;
+  const utcMilliseconds =
+    Date.UTC(
+      Number(year),
+      Number(month) - 1,
+      Number(day),
+      Number(hour),
+      Number(minute),
+      Number(second)
+    ) -
+    330 * 60 * 1000;
+
+  const istView = new Date(utcMilliseconds + 330 * 60 * 1000);
+
+  if (
+    istView.getUTCFullYear() !== Number(year) ||
+    istView.getUTCMonth() !== Number(month) - 1 ||
+    istView.getUTCDate() !== Number(day) ||
+    istView.getUTCHours() !== Number(hour) ||
+    istView.getUTCMinutes() !== Number(minute) ||
+    istView.getUTCSeconds() !== Number(second)
+  ) {
+    return null;
+  }
+
+  return utcMilliseconds;
 }
 
 function parseHostnames(rawValue) {
@@ -36,7 +89,10 @@ function updateHostnameCount() {
 
 function validateForm(payload) {
   if (!payload.requesterName) return "Enter the requester name.";
-  if (!payload.requesterEmail) return "Enter the requester email or username.";
+  if (!payload.requesterEmail) return "Enter the requester email.";
+  if (!isAllowedRequesterEmail(payload.requesterEmail)) {
+    return "Requester email must end with @abc.com or @xyz.";
+  }
 
   if (payload.hostnames.length < 1) return "Enter at least one hostname.";
   if (payload.hostnames.length > MAX_HOSTNAMES) {
@@ -54,8 +110,27 @@ function validateForm(payload) {
     return "Enter the start and end date/time.";
   }
 
-  if (new Date(payload.endDateTime) <= new Date(payload.startDateTime)) {
+  const startMilliseconds = parseIstDateTime(payload.startDateTime);
+  const endMilliseconds = parseIstDateTime(payload.endDateTime);
+
+  if (startMilliseconds === null || endMilliseconds === null) {
+    return "Enter valid start and end dates in India Standard Time.";
+  }
+
+  if (endMilliseconds <= startMilliseconds) {
     return "End date/time must be later than start date/time.";
+  }
+
+  const minimumStart =
+    Date.now() + MINIMUM_LEAD_MINUTES * 60 * 1000;
+
+  if (startMilliseconds < minimumStart) {
+    return `Start time must be at least ${MINIMUM_LEAD_MINUTES} minutes in the future.`;
+  }
+
+  const durationMilliseconds = endMilliseconds - startMilliseconds;
+  if (durationMilliseconds > MAXIMUM_DURATION_HOURS * 60 * 60 * 1000) {
+    return `The suppression window cannot exceed ${MAXIMUM_DURATION_HOURS} hours.`;
   }
 
   if (!payload.changeNumber) return "Enter the change or incident number.";

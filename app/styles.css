@@ -44,6 +44,77 @@ body { margin: 0; }
   padding: 12px 14px;
 }
 
+
+.checks-panel {
+  margin-bottom: 24px;
+  border: 1px solid #d8b24b;
+  border-left: 5px solid #c48900;
+  border-radius: 7px;
+  background: #fff9e8;
+  padding: 18px;
+}
+
+.checks-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.checks-heading h2 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: #684d00;
+  font-size: 1.15rem;
+}
+
+.checks-heading p {
+  margin: 3px 0 0;
+  color: #6d5b28;
+}
+
+.checks-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  border-radius: 50%;
+  background: #1769aa;
+  color: #fff;
+  font-weight: 800;
+}
+
+.checks-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 18px;
+  margin-top: 15px;
+}
+
+.check-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-left: 3px solid #d8b24b;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.check-item strong {
+  color: #473700;
+}
+
+.check-item span {
+  color: #5f5435;
+  font-size: 0.92rem;
+}
+
+.important-help {
+  color: #7a2e0b;
+  font-weight: 600;
+}
+
 h2 {
   margin-top: 26px;
   padding-bottom: 8px;
@@ -256,7 +327,8 @@ code {
   }
 
   .grid,
-  .summary {
+  .summary,
+  .checks-grid {
     grid-template-columns: 1fr;
   }
 

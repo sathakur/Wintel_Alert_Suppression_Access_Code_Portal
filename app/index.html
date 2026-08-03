@@ -21,6 +21,43 @@
         but action-group notifications are suppressed during the selected window.
       </div>
 
+      <section class="checks-panel" aria-labelledby="checksHeading">
+        <div class="checks-heading">
+          <span class="checks-icon" aria-hidden="true">✓</span>
+          <div>
+            <h2 id="checksHeading">Important checks before submission</h2>
+            <p>Please confirm every item below before submitting the request.</p>
+          </div>
+        </div>
+
+        <div class="checks-grid">
+          <div class="check-item">
+            <strong>Approved email only</strong>
+            <span>Requester email must end with <b>@abc.com</b> or <b>@xyz</b>.</span>
+          </div>
+          <div class="check-item">
+            <strong>VM limit</strong>
+            <span>Enter between 1 and 20 unique VM hostnames.</span>
+          </div>
+          <div class="check-item">
+            <strong>Minimum lead time</strong>
+            <span>Start time must be at least 45 minutes in the future.</span>
+          </div>
+          <div class="check-item">
+            <strong>Maximum duration</strong>
+            <span>The suppression window cannot exceed 24 hours.</span>
+          </div>
+          <div class="check-item">
+            <strong>Time zone</strong>
+            <span>All dates and times use India Standard Time (IST).</span>
+          </div>
+          <div class="check-item">
+            <strong>Change control</strong>
+            <span>A valid change/incident number and reason are mandatory.</span>
+          </div>
+        </div>
+      </section>
+
       <form id="suppressionForm" novalidate>
         <h2>Requester details</h2>
 
@@ -31,8 +68,17 @@
           </div>
 
           <div class="field">
-            <label for="requesterEmail">Requester email / username *</label>
-            <input id="requesterEmail" type="text" maxlength="150" required>
+            <label for="requesterEmail">Requester email *</label>
+            <input
+              id="requesterEmail"
+              type="email"
+              maxlength="150"
+              placeholder="name@abc.com"
+              aria-describedby="requesterEmailHelp"
+              required>
+            <div id="requesterEmailHelp" class="field-help important-help">
+              Only <strong>@abc.com</strong> and <strong>@xyz</strong> email addresses are accepted.
+            </div>
           </div>
         </div>
 
