@@ -3,7 +3,7 @@ const { app } = require("@azure/functions");
 const MAX_HOSTNAMES = 20;
 const FIXED_TIME_ZONE = "India Standard Time";
 const ALLOWED_HOSTNAME = /^[A-Za-z0-9._-]{1,253}$/;
-const ALLOWED_EMAIL_DOMAINS = new Set(["capgemini.com", "fresenius.com"]);
+const ALLOWED_EMAIL_DOMAINS = new Set(["capgemini.com", "fresenius.com", "ext.fresenius.com"]);
 const MINIMUM_LEAD_MINUTES = 45;
 const MAXIMUM_DURATION_HOURS = 24;
 
@@ -93,7 +93,7 @@ function validatePayload(body) {
 
   const requesterEmailDomain = getEmailDomain(body.requesterEmail);
   if (!ALLOWED_EMAIL_DOMAINS.has(requesterEmailDomain)) {
-    return "Requester email must end with @capgemini.com or @fresenius.com.";
+    return "Requester email must end with @capgemini.com, @fresenius.com, or @ext.fresenius.com.";
   }
 
   if (!Array.isArray(body.hostnames)) {

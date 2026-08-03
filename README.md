@@ -2,7 +2,7 @@
 
 This version includes:
 
-- Requester email restricted to the exact domains `@capgemini.com` and `@fresenius.com`
+- Requester email restricted to the exact domains `@capgemini.com`, `@fresenius.com`, and `@ext.fresenius.com`
 - Email validation in the browser, managed API, and Logic App
 - Key submission checks highlighted on the website
 - 1–20 unique VM hostnames
@@ -25,6 +25,7 @@ The current examples are:
 ```text
 capgemini.com
 fresenius.com
+ext.fresenius.com
 ```
 
 Update the same values in all three locations:
