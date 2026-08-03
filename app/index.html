@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Alert Suppression</title>
-  <link rel="stylesheet" href="/styles.css?v=20260803-5">
+  <link rel="stylesheet" href="/styles.css?v=20260803-7">
 </head>
 <body>
   <header class="topbar">
@@ -16,7 +16,56 @@
 
   <main class="page">
     <section class="card">
-<form id="suppressionForm" novalidate>
+
+      <section class="request-hero" aria-labelledby="requestHeroTitle">
+        <div class="request-hero-accent" aria-hidden="true"></div>
+        <div class="request-hero-content">
+          <span class="request-hero-eyebrow">Azure Monitor Operations</span>
+          <h2 id="requestHeroTitle">Planned Maintenance Suppression Request</h2>
+          <p>
+            Submit approved maintenance windows to temporarily suppress notification
+            delivery while keeping alerts visible and auditable.
+          </p>
+        </div>
+      </section>
+
+      <section class="requirements-panel" aria-labelledby="requirementsHeading">
+        <div class="requirements-heading">
+          <div>
+            <span class="requirements-label">Before you submit</span>
+            <h2 id="requirementsHeading">Request requirements</h2>
+          </div>
+          <span class="requirements-status">3 checks</span>
+        </div>
+
+        <div class="requirements-grid">
+          <article class="requirement-card">
+            <div class="requirement-number">01</div>
+            <div>
+              <h3>VM scope</h3>
+              <p>Enter between 1 and 20 unique VM hostnames.</p>
+            </div>
+          </article>
+
+          <article class="requirement-card">
+            <div class="requirement-number">02</div>
+            <div>
+              <h3>Minimum lead time</h3>
+              <p>Schedule the start time at least 45 minutes in advance.</p>
+            </div>
+          </article>
+
+          <article class="requirement-card">
+            <div class="requirement-number">03</div>
+            <div>
+              <h3>Maximum duration</h3>
+              <p>The suppression window must not exceed 24 hours.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <form id="suppressionForm" novalidate>
         <h2>Requester details</h2>
 
         <div class="grid">
@@ -117,6 +166,6 @@
     <section id="resultArea" class="card result-card" hidden aria-live="polite"></section>
   </main>
 
-  <script src="/app.js?v=20260803-5"></script>
+  <script src="/app.js?v=20260803-7"></script>
 </body>
 </html>

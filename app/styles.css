@@ -45,6 +45,71 @@ body { margin: 0; }
 }
 
 
+.checks-panel {
+  margin-bottom: 24px;
+  border: 1px solid #d8b24b;
+  border-left: 5px solid #c48900;
+  border-radius: 7px;
+  background: #fff9e8;
+  padding: 18px;
+}
+
+.checks-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.checks-heading h2 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: #684d00;
+  font-size: 1.15rem;
+}
+
+.checks-heading p {
+  margin: 3px 0 0;
+  color: #6d5b28;
+}
+
+.checks-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  border-radius: 50%;
+  background: #1769aa;
+  color: #fff;
+  font-weight: 800;
+}
+
+.checks-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 18px;
+  margin-top: 15px;
+}
+
+.check-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-left: 3px solid #d8b24b;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.check-item strong {
+  color: #473700;
+}
+
+.check-item span {
+  color: #5f5435;
+  font-size: 0.92rem;
+}
+
 .important-help {
   color: #7a2e0b;
   font-weight: 600;
@@ -255,19 +320,32 @@ code {
   border-radius: 4px;
 }
 
+@media (max-width: 760px) {
+  .page {
+    width: min(100% - 20px, 1180px);
+    margin: 16px auto;
+  }
+
+  .grid,
+  .summary,
+  .checks-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 16px;
+  }
+}
+
 
 .request-hero {
-  position: relative;
   display: flex;
-  gap: 20px;
+  gap: 18px;
   margin-bottom: 20px;
-  padding: 26px 28px;
-  overflow: hidden;
+  padding: 24px 26px;
   border: 1px solid #d7e3ef;
   border-radius: 10px;
-  background:
-    linear-gradient(135deg, rgba(23, 105, 170, 0.08), rgba(16, 42, 67, 0.02)),
-    #ffffff;
+  background: linear-gradient(135deg, #f3f8fc 0%, #ffffff 100%);
 }
 
 .request-hero-accent {
@@ -398,28 +476,7 @@ code {
   line-height: 1.45;
 }
 
-@media (max-width: 760px) {
-  .page {
-    width: min(100% - 20px, 1180px);
-    margin: 16px auto;
-  }
-
-  .grid,
-  .summary,
-  .card {
-    padding: 16px;
-  }
-}
-
-@media (max-width: 760px) {
-  .request-hero {
-    padding: 20px;
-  }
-
-  .requirements-heading {
-    align-items: center;
-  }
-
+@media (max-width: 900px) {
   .requirements-grid {
     grid-template-columns: 1fr;
   }
